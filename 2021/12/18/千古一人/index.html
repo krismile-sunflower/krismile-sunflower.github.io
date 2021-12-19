@@ -159,4 +159,15 @@
 
   }
 }
-window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/fireworks.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>if (document.getElementsByClassName('mermaid').length) {
+  if (window.mermaidJsLoad) mermaid.init()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(() => {
+      window.mermaidJsLoad = true
+      mermaid.initialize({
+        theme: 'default',
+      })
+      false && mermaid.init()
+    })
+  }
+}</script></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/fireworks.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
