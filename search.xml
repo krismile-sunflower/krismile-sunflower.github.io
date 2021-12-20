@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search> 
+  
+  
+    
+    <entry>
+      <title>Warshall算法和Floyd算法</title>
+      <link href="/2021/12/19/Warshall%E7%AE%97%E6%B3%95%E5%92%8CFloyd%E7%AE%97%E6%B3%95/"/>
+      <url>/2021/12/19/Warshall%E7%AE%97%E6%B3%95%E5%92%8CFloyd%E7%AE%97%E6%B3%95/</url>
+      
+        <content type="html"><![CDATA[<h2 id="Waseshall算法"><a href="#Waseshall算法" class="headerlink" title="Waseshall算法"></a>Waseshall算法</h2><p>$Waseshall$算法用来求解<mark class="hl-label blue">传递闭包</mark> 问题。<br>一个$n$顶点有向图的传递闭包可以定义为一个$n$阶布尔矩阵$T=${ $ t[i, j] $ }，如果从第$i$个顶点到第$j$个顶点之间存在一条有效的有向路径（即长度大于$0$的有向路径），矩阵第$i$行$（1 \le i \le n ）$第$j$行$（1 \le j \le n）$的元素为$1$，否者，$ t[i, j] $为$0$。</p><div class="mermaid">graph LR  A((A)) --&gt; B((B))  B((B)) --&gt; C((C))  C((C)) --&gt; D((D))</div><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Warshall</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span>[][] matrix = &#123;</span><br><span class="line">                &#123;<span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>&#125;,</span><br><span class="line">                &#123;<span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>&#125;,</span><br><span class="line">                &#123;<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>&#125;,</span><br><span class="line">                &#123;<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>&#125;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span>[][] warshall = warshall(matrix);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; warshall.length; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; warshall[i].length; j++) &#123;</span><br><span class="line">                System.out.print(warshall[i][j] + <span class="string">&quot;\t&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.println();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span>[][] warshall(<span class="keyword">int</span>[][] matrix)&#123;</span><br><span class="line">        <span class="keyword">int</span>[][] R = matrix.clone();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; R.length; k++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; R.length; i++) &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; R.length; j++) &#123;</span><br><span class="line">                    R[i][j] = R[i][j] | R[i][k] &amp; R[k][j];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> R;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><table>    <tr>        <td>0</td>        <td>1</td>        <td>1</td>        <td>1</td>    </tr>    <tr>        <td>0</td>        <td>0</td>        <td>1</td>        <td>1</td>    </tr>    <tr>        <td>0</td>        <td>0</td>        <td>0</td>        <td>1</td>    </tr>    <tr>        <td>0</td>        <td>0</td>        <td>0</td>        <td>0</td>    </tr></table><h2 id="Floyd算法"><a href="#Floyd算法" class="headerlink" title="Floyd算法"></a>Floyd算法</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Floyd</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> c = <span class="number">1000</span>;</span><br><span class="line">        <span class="keyword">int</span>[][] matrix = &#123;</span><br><span class="line">                &#123;<span class="number">0</span>, <span class="number">2</span>, c, <span class="number">1</span>, <span class="number">8</span>&#125;,</span><br><span class="line">                &#123;<span class="number">6</span>, <span class="number">0</span>, <span class="number">3</span>, <span class="number">2</span>, c&#125;,</span><br><span class="line">                &#123;c, c, <span class="number">0</span>, <span class="number">4</span>, c&#125;,</span><br><span class="line">                &#123;c, c, <span class="number">2</span>, <span class="number">0</span>, <span class="number">3</span>&#125;,</span><br><span class="line">                &#123;<span class="number">3</span>, c, c, c, <span class="number">0</span>&#125;,</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span>[][] floyd = floyd(matrix);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; floyd.length; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; floyd[i].length; j++) &#123;</span><br><span class="line">                System.out.print(floyd[i][j] + <span class="string">&quot;\t&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.println();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span>[][] floyd(<span class="keyword">int</span>[][] matrix)&#123;</span><br><span class="line">        <span class="keyword">int</span>[][] D = matrix.clone();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; D.length; k++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; D.length; i++) &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; D.length; j++) &#123;</span><br><span class="line">                    D[i][j] = Math.min(D[i][j], D[i][k] + D[k][j]);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> D;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure><table>    <tr>        <td>0</td>        <td>2</td>        <td>3</td>        <td>1</td>        <td>4</td>    </tr>    <tr>        <td>6</td>        <td>0</td>        <td>3</td>        <td>2</td>        <td>5</td>    </tr>    <tr>        <td>10</td>        <td>12</td>        <td>0</td>        <td>4</td>        <td>7</td>    </tr>    <tr>        <td>6</td>        <td>8</td>        <td>2</td>        <td>0</td>        <td>3</td>    </tr>    <tr>        <td>3</td>        <td>5</td>        <td>6</td>        <td>4</td>        <td>0</td>    </tr></table>]]></content>
+      
+      
+      <categories>
+          
+          <category> 数据结构与算法 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 数据结构与算法 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>昨日今日</title>
+      <link href="/2021/12/19/%E6%98%A8%E6%97%A5%E4%BB%8A%E6%97%A5/"/>
+      <url>/2021/12/19/%E6%98%A8%E6%97%A5%E4%BB%8A%E6%97%A5/</url>
+      
+        <content type="html"><![CDATA[<p>昨天的的天气，夹杂着小雨而来，小风袭来，又显得一丝寒意入骨。<br>看着天气是如此的糟糕，但是这样的天气无疑又让一个人清醒了许多。<br>今天，外出之时看见，看见了天边的暖阳升起。<br>冬日里，这样的天气总给人一种惬意的感觉，使我充满动力。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 生活一记 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 生活一记 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>千古一人</title>
+      <link href="/2021/12/18/%E5%8D%83%E5%8F%A4%E4%B8%80%E4%BA%BA/"/>
+      <url>/2021/12/18/%E5%8D%83%E5%8F%A4%E4%B8%80%E4%BA%BA/</url>
+      
+        <content type="html"><![CDATA[<p>千古一人，绝无他人。一生坎坷曲折，成就了他是一个复杂的人，胸怀天下，力图改革，是的，他做到了。<br>他就是张居正。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 历史闲谈 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 历史闲谈 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+  
+  
+</search>
